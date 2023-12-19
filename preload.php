@@ -32,7 +32,7 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR)
 /**
  * See https://www.php.net/manual/en/function.str-contains.php#126277
  */
-if (! function_exists('str_contains')) {
+if (!function_exists('str_contains')) {
     /**
      * Polyfill of str_contains()
      */
@@ -63,10 +63,21 @@ class preload
                 '/system/Commands/',
                 '/system/Publisher/',
                 '/system/ComposerScripts.php',
-                '/Views/',
                 // Errors occur.
                 '/system/Config/Routes.php',
                 '/system/ThirdParty/',
+            ],
+        ],
+        [
+            'include' => __DIR__ . '/app/Views',
+            'exclude' => [
+                // Add any specific views you want to exclude here.
+            ],
+        ],
+        [
+            'include' => __DIR__,
+            'exclude' => [
+                // Add any specific files you want to exclude here.
             ],
         ],
     ];
@@ -89,8 +100,8 @@ class preload
     {
         foreach ($this->paths as $path) {
             $directory = new RecursiveDirectoryIterator($path['include']);
-            $fullTree  = new RecursiveIteratorIterator($directory);
-            $phpFiles  = new RegexIterator(
+            $fullTree = new RecursiveIteratorIterator($directory);
+            $phpFiles = new RegexIterator(
                 $fullTree,
                 '/.+((?<!Test)+\.php$)/i',
                 RecursiveRegexIterator::GET_MATCH
